@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
         card.classList.add("card");
         card.textContent = elements[i];
         container.append(card);
-        card.addEventListener("click", ()=> {
-            card.classList.toggle("opened")
+        function openCard() {
+            card.classList.toggle("opened");
             const openedElements = document.querySelectorAll(".opened");
             if (openedElements.length == 2) {
                 if (openedElements[0].textContent !== openedElements[1].textContent) {
@@ -30,9 +30,11 @@ document.addEventListener("DOMContentLoaded", ()=> {
                     openedElements.forEach(element => {
                         element.classList.remove("opened");
                         element.classList.add("checked");
+                        element.removeEventListener("click", openCard)
                     })
                 }
             }
-        })
+        }
+        card.addEventListener("click", openCard)
     }
 })
