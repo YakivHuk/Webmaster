@@ -84,7 +84,8 @@ h1 {
     text-align: center;
 }
 
-.site-main .container > .opened {
+.site-main .container > .opened,
+.site-main .container > .checked {
     color: white;
 }
 

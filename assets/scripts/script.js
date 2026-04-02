@@ -9,57 +9,30 @@ function shuffle(elements) {
     }
 }
 
-shuffle(elements);
-
-let hasFlippedCard = false;
-let lockBoard = false;
-let firstCard, secondCard;
-
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", ()=> {
+    shuffle(elements);
     for (i = 0; i < 8; i++) {
         const card = document.createElement("div");
         card.classList.add("card");
         card.textContent = elements[i];
         container.append(card);
-
-        card.addEventListener("click", () => {
-            if (lockBoard || card === firstCard || card.classList.contains("matched")) return;
-
-            card.classList.add("opened");
-
-            if (!hasFlippedCard) {
-                hasFlippedCard = true;
-                firstCard = card;
-                return;
+        card.addEventListener("click", ()=> {
+            card.classList.toggle("opened")
+            const openedElements = document.querySelectorAll(".opened");
+            if (openedElements.length == 2) {
+                if (openedElements[0].textContent !== openedElements[1].textContent) {
+                    openedElements.forEach(element => {
+                        setTimeout(()=> {
+                            element.classList.remove("opened");
+                        }, 1000)
+                    })
+                } else {
+                    openedElements.forEach(element => {
+                        element.classList.remove("opened");
+                        element.classList.add("checked");
+                    })
+                }
             }
-
-            secondCard = card;
-            checkForMatch();
-        });
+        })
     }
-});
-
-function checkForMatch() {
-    let isMatch = firstCard.textContent === secondCard.textContent;
-    isMatch ? disableCards() : unflipCards();
-}
-
-function disableCards() {
-    firstCard.classList.add("matched");
-    secondCard.classList.add("matched");
-    resetBoard();
-}
-
-function unflipCards() {
-    lockBoard = true;
-    setTimeout(() => {
-        firstCard.classList.remove("opened");
-        secondCard.classList.remove("opened");
-        resetBoard();
-    }, 1000);
-}
-
-function resetBoard() {
-    [hasFlippedCard, lockBoard] = [false, false];
-    [firstCard, secondCard] = [null, null];
-}
+})
