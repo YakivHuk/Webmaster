@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
                     openedElements.forEach(element => {
                         element.classList.remove("opened");
                         element.classList.add("checked");
-                        element.removeEventListener("click", openCard)
                     })
                 }
             }
